@@ -10781,6 +10781,11 @@ class IniFile:
         reComment = self.reComment
         reSection = self.reSection
         reSetting = self.reSetting
+        # Clear ReadOnly flag if set
+        cmd = r'attrib -R "%s" /S /D' % (self.path)
+        cmd = Encode(cmd)
+        ins, err = Popen(cmd, stdout=PIPE, stdin=PIPE,
+            startupinfo=startupinfo).communicate()
         # --Read init, write temp
         iniFile = self.path.open('r')
         tmpFile = self.path.temp.open('w')
